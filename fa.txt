@@ -1,0 +1,4 @@
+#!/bin/bash
+ls -l /bin | head -5
+echo "are the first five commands"
+
