@@ -23,6 +23,7 @@ class Schedule():
         self.terms = [self.code_to_term(code) for code in self.codes] #["Fall 2004", "Spring 2005", "Summer 2005", ...]
         self.years = sorted({self.code_to_academic_year(c) for c in self.codes}) #["2004-05", "2005-06", ...]
         self.years0 = [int(y[:4]) for y in self.years] #[2004,2005, ...., 2020]
+        self.author = "Tim Hickey"
 
 
 
