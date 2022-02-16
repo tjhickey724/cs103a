@@ -1,22 +1,22 @@
 ''' this represents the class of complex numbers with integral real and imaginary parts '''
 
-class Gaussian_Integer():
+class GaussianInteger():
     ''' Gaussian_Integer(a,b) represents the complex number a+ib with a,b integers'''
-    def __init__(self,a,b):
+    def __init__(self,real,imag):
         ''' create a Gaussian Integer from the real and imaginary parts'''
-        self.re = a
-        self.im = b
+        self.real = real
+        self.imag = imag
 
     def __str__(self):
         ''' print a Gaussian Integer in the form a+bi'''
-        return str(self.re)+"+"+str(self.im)+"i"
+        return str(self.real)+"+"+str(self.imag)+"i"
 
-    def add(self,u):
+    def add(self,other):
         ''' return the Gaussian Integer you get by adding u to self'''
-        return Gaussian_Integer(self.re+u.re,self.im+u.im)
+        return GaussianInteger(self.real+other.real,self.imag+other.imag)
 
-    def multiply(self,u):
+    def multiply(self,other):
         ''' return the Gaussian Integer you get by multiplying u by self'''
-        a = self.re * u.re - self.im * u.im
-        b = self.re * u.im + self.im * u.re
-        return Gaussian_Integer(a,b)
+        re_a = self.real * other.real - self.imag * other.imag
+        im_b = self.real * other.imag + self.imag * other.real
+        return GaussianInteger(re_a,im_b)

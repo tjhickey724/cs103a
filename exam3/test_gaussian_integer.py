@@ -1,6 +1,6 @@
 from gaussian_integer import *
-u = Gaussian_Integer(1,1)
-v = Gaussian_Integer(1,2)
+u = GaussianInteger(1,1)
+v = GaussianInteger(1,2)
 w = u.multiply(u)
 x = u.add(v).add(w)
 print('u=',u,' should be 1+1i')
