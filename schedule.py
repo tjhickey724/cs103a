@@ -19,8 +19,10 @@ class Schedule():
             self.courses = [row for row in reader]
             csvfile.close()
         self.clean_data() # make the data easier to manipulate, e.g. convert enrollments to integer from string
-        self.codes = sorted({c['code'] for c in self.courses})
-        self.terms = [self.code_to_term(code) for code in self.codes]
+        self.codes = sorted({c['code'] for c in self.courses}) #[1043 1051 1052 1053 1061 ...]
+        self.terms = [self.code_to_term(code) for code in self.codes] #["Fall 2004", "Spring 2005", "Summer 2005", ...]
+        self.years = sorted({self.code_to_academic_year(c) for c in self.codes}) #["2004-05", "2005-06", ...]
+        self.years0 = [int(y[:4]) for y in self.years] #[2004,2005, ...., 2020]
 
 
 
@@ -42,6 +44,15 @@ class Schedule():
             return "Summer "+year
         else:
             return "Fall "+year
+
+    def code_to_academic_year(self,code):
+        year1 = int(code[1:-1])
+        year2 = year1
+        if code[-1]=='3':
+            year2 = year1+1
+        else:
+            year1 = year2-1
+        return "20%02d-%02d"%(year1,year2)
 
 
     def clean_data(self):
@@ -70,11 +81,20 @@ class Schedule():
         '''  returns the number of students enrolled in each term in courses satisfying the condition '''
         return [self.enrolled_in_term_by_condition(condition,code) for code in self.codes]
     
-    def plot_enrolled_by_condition(self,title,condition):
-        plt.figure(figsize=(20,15))
+    def plot_enrolled_by_terms_and_condition(self,title,condition):
         plt.barh(self.terms,self.enrolled_by_condition(condition))
         plt.title(title,fontsize=24)
 
 
+    def enrolled_in_year_by_condition(self,condition,year):
+        ''' returns the number of students enrolled in the specified term satisfying the condition '''
+        return sum([c['enr'] for c in self.courses if self.code_to_academic_year(c['code'])==year and condition(c)])
+    
+    def enrolled_by_years_and_condition(self,condition):
+        '''  returns the number of students enrolled in each term in courses satisfying the condition '''
+        return [self.enrolled_in_year_by_condition(condition,year) for year in self.years]
+    
+    def plot_enrolled_by_years_and_condition(self,condition,label):
+        plt.plot(self.years0,self.enrolled_by_years_and_condition(condition),label=label)
 
 
