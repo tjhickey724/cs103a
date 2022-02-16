@@ -99,3 +99,7 @@ class Schedule():
         plt.plot(self.years0,self.enrolled_by_years_and_condition(condition),label=label)
 
 
+    def plot_by_subject(self, condition):
+        subjects = sorted({c['subj'] for c in self.courses})
+        values = [ sum([c['enr'] for c in self.courses if condition(c) and c['subj']==subj]) for subj in subjects]
+        plt.barh(subjects,values)
