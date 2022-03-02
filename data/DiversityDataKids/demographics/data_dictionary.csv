@@ -1,0 +1,30 @@
+Column,Type,Label,Description
+geoid,text,Census Geographic Identifier,
+name,text,Census Geography Name,
+year,text,Year,
+aian_est,numeric,Estimate; American Indian and Alaska Native Alone,The ACS-based estimate for the American Indian and Alaska Native Alone population.
+aian_se,numeric,Standard Error; American Indian and Alaska Native Alone,The standard error of the ACS-based estimate for the American Indian and Alaska Native Alone population (only available in download file).
+api_est,numeric,Estimate; Asian or Pacific Islander Alone,The ACS-based estimate for the Asian or Pacific Islander Alone population.
+api_se,numeric,Standard Error; Asian or Pacific Islander Alone,The standard error of the ACS-based estimate for the Asian or Pacific Islander Alone population (only available in download file).
+asian_est,numeric,Estimate; Asian Alone,The ACS-based estimate for the Asian Alone population.
+asian_se,numeric,Standard Error; Asian Alone,The standard error of the ACS-based estimate for the Asian Alone population (only available in download file).
+black_est,numeric,Estimate; Black or African American Alone,The ACS-based estimate for the Black or African American Alone population.
+black_se,numeric,Standard Error; Black or African American Alone,The standard error of the ACS-based estimate for the Black or African American Alone population (only available in download file).
+hisp_est,numeric,Estimate; Hispanic or Latino,The ACS-based estimate for the Hispanic or Latino population.
+hisp_se,numeric,Standard Error; Hispanic or Latino,The standard error of the ACS-based estimate for the Hispanic or Latino population (only available in download file).
+nhisp_est,numeric,Estimate; Not Hispanic or Latino,The ACS-based estimate for the Not Hispanic or Latino population.
+nhisp_se,numeric,Standard Error; Not Hispanic or Latino,The standard error of the ACS-based estimate for the Not Hispanic or Latino population (only available in download file).
+nhopi_est,numeric,Estimate; Native Hawaiian and Other Pacific Islander Alone,The ACS-based estimate for the Native Hawaiian and Other Pacific Islander Alone population.
+nhopi_se,numeric,Standard Error; Native Hawaiian and Other Pacific Islander Alone,The standard error of the ACS-based estimate for the Native Hawaiian and Other Pacific Islander Alone population (only available in download file).
+nhwhite_est,numeric,"Estimate; White Alone, Not Hispanic or Latino","The ACS-based estimate for the White Alone, Not Hispanic or Latino population."
+nhwhite_se,numeric,"Standard Error; White Alone, Not Hispanic or Latino","The standard error of the ACS-based estimate for the White Alone, Not Hispanic or Latino population (only available in download file)."
+nnhwhite_est,numeric,Estimate; Total minus non-Hispanic Whites,The ACS-based estimate for the Total minus non-Hispanic Whites population.
+nnhwhite_se,numeric,Standard Error; Total minus non-Hispanic Whites,The standard error of the ACS-based estimate for the Total minus non-Hispanic Whites population (only available in download file).
+other_est,numeric,Estimate; Some Other Race Alone,The ACS-based estimate for the Some Other Race Alone population.
+other_se,numeric,Standard Error; Some Other Race Alone,The standard error of the ACS-based estimate for the Some Other Race Alone population (only available in download file).
+othermore_est,numeric,Estimate; Some Other Race Alone or Two or More Races,The ACS-based estimate for the Some Other Race Alone or Two or More Races population.
+othermore_se,numeric,Standard Error; Some Other Race Alone or Two or More Races,The standard error of the ACS-based estimate for the Some Other Race Alone or Two or More Races population (only available in download file).
+twomore_est,numeric,Estimate; Two or More Races,The ACS-based estimate for the Two or More Races population.
+twomore_se,numeric,Standard Error; Two or More Races,The standard error of the ACS-based estimate for the Two or More Races population (only available in download file).
+white_est,numeric,Estimate; White Alone,The ACS-based estimate for the White Alone population.
+white_se,numeric,Standard Error; White Alone,The standard error of the ACS-based estimate for the White Alone population (only available in download file).
