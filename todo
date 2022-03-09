@@ -34,6 +34,7 @@ def print_usage():
             todo delete item_id
             '''
             )
+
 def print_todos(todos):
     ''' print the todo items '''
     for item in todos:
@@ -84,6 +85,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS todo
 
 if len(sys.argv)==1:
     # they didn't pass any arguments, so prompt for them:
+    print_usage()
     args = input("command> ").split(" ")
 else:
     args = sys.argv[1:]
