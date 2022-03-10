@@ -11,12 +11,12 @@ The ORM, TodoList, will map SQL rows with the schema
     (rowid,title,desc,completed)
 to Python Dictionaries as follows:
 
-(5,'commute','drive to work',false) <-->
+(5,'commute','drive to work',0) <-->
 
 {rowid:5,
  title:'commute',
  desc:'drive to work',
- completed:false)
+ completed:0)
  }
 
 In place of SQL queries, we will have method calls.
@@ -58,7 +58,8 @@ def print_todos(todos):
         return
     print("%-10s %-10s %30s %-10s"%('item #','title','desc','completed'))
     for item in todos:
-        values = item.values() #(rowid,title,desc,completed)
+
+        values =  list(item.values()) #(rowid,title,desc,completed)
         print("%-10s %-10s %30s %2d"%values)
 
 def process_args(arglist):
@@ -91,7 +92,8 @@ def process_args(arglist):
         print(arglist,"is not implemented")
         print_usage()
 
-
+print('args=')
+print(sys.argv)
 if len(sys.argv)==1:
     # they didn't pass any arguments, so prompt for them:
     print_usage()

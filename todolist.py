@@ -18,7 +18,7 @@ import os
 
 def toDict(t):
     ''' t is a tuple (rowid,title, desc,completed)'''
-    return {rowid:t[0], title:t[1], desc:t[2], completed:t[3]}
+    return {'rowid':t[0], 'title':t[1], 'desc':t[2], 'completed':t[3]}
 
 class TodoList():
     def __init__(self):
