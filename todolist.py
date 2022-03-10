@@ -14,9 +14,11 @@ This app will store the data in a SQLite database ~/todo.db
 
 '''
 import sqlite3
-import csv
-import sys
 import os
+
+def toDict(t):
+    ''' t is a tuple (rowid,title, desc,completed)'''
+    return {rowid:t[0], title:t[1], desc:t[2], completed:t[3]}
 
 class TodoList():
     def __init__(self):
@@ -26,5 +28,26 @@ class TodoList():
                     (title text, desc text, completed int)''')
         con.commit()
         con.close()
+    def selectActive(self):
+        ''' return all of the uncompleted tasks as a list of dicts.'''
+        con= sqlite3.connect(os.getenv('HOME')+'/todo.db')
+        cur = con.cursor() 
+        cur.execute("SELECT rowid,* from todo where completed=0")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return [toDict(t) for t in tuples]
+    def selectAll(self):
+        pass
+    def selectCompleted(self):
+        pass
+    def add(self,title,desc,completed):
+        pass
+    def delete(self,rowid):
+        pass
+    def complete(self,rowid):
+        pass
+
+
     
         
