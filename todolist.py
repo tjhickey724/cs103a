@@ -18,7 +18,9 @@ import os
 
 def toDict(t):
     ''' t is a tuple (rowid,title, desc,completed)'''
-    return {rowid:t[0], title:t[1], desc:t[2], completed:t[3]}
+    print('t='+str(t))
+    todo = {'rowid':t[0], 'title':t[1], 'desc':t[2], 'completed':t[3]}
+    return todo
 
 class TodoList():
     def __init__(self):
@@ -38,15 +40,51 @@ class TodoList():
         con.close()
         return [toDict(t) for t in tuples]
     def selectAll(self):
-        pass
+        ''' return all of the tasks as a list of dicts.'''
+        con= sqlite3.connect(os.getenv('HOME')+'/todo.db')
+        cur = con.cursor() 
+        cur.execute("SELECT rowid,* from todo")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return [toDict(t) for t in tuples]
+
     def selectCompleted(self):
-        pass
-    def add(self,title,desc,completed):
-        pass
+        ''' return all of the completed tasks as a list of dicts.'''
+        con= sqlite3.connect(os.getenv('HOME')+'/todo.db')
+        cur = con.cursor() 
+        cur.execute("SELECT rowid,* from todo where completed=1")
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return [toDict(t) for t in tuples]
+    def add(self,item):
+        ''' create a todo item and add it to the todo table '''
+        con= sqlite3.connect(os.getenv('HOME')+'/todo.db')
+        cur = con.cursor() 
+        cur.execute("INSERT INTO todo VALUES(?,?,?)",(item['title'],item['desc'],item['completed']))
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return
     def delete(self,rowid):
-        pass
-    def complete(self,rowid):
-        pass
+        ''' delete a todo item '''
+        con= sqlite3.connect(os.getenv('HOME')+'/todo.db')
+        cur = con.cursor() 
+        cur.execute("DELETE FROM todo WHERE rowid=(?)",(rowid,))
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return
+    def setComplete(self,rowid):
+        ''' mark a todo item as completed '''
+        con= sqlite3.connect(os.getenv('HOME')+'/todo.db')
+        cur = con.cursor() 
+        cur.execute("UPDATE todo SET completed=1 WHERE rowid=(?)",(rowid,))
+        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return
 
 
     
