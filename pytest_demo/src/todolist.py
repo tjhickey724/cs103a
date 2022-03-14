@@ -71,7 +71,14 @@ class TodoList():
         con= sqlite3.connect(self.database_file)
         cur = con.cursor() 
         cur.execute("DELETE FROM todo WHERE rowid=(?)",(rowid,))
-        tuples = cur.fetchall()
+        con.commit()
+        con.close()
+        return
+    def deleteAll(self):
+        ''' delete a todo item '''
+        con= sqlite3.connect(self.database_file)
+        cur = con.cursor() 
+        cur.execute("DELETE FROM todo")
         con.commit()
         con.close()
         return
