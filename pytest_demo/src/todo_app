@@ -11,12 +11,12 @@ The ORM, TodoList, will map SQL rows with the schema
     (rowid,title,desc,completed)
 to Python Dictionaries as follows:
 
-(5,'commute','drive to work',0) <-->
+(5,'commute','drive to work',false) <-->
 
 {rowid:5,
  title:'commute',
  desc:'drive to work',
- completed:0)
+ completed:false)
  }
 
 In place of SQL queries, we will have method calls.
@@ -35,6 +35,7 @@ could be replaced with PostgreSQL or Pandas or straight python lists
 
 from todolist import TodoList
 import sys
+import os
 
 
 # here are some helper functions ...
@@ -56,14 +57,17 @@ def print_todos(todos):
     if len(todos)==0:
         print('no tasks to print')
         return
-    print("%-10s %-10s %30s %-10s"%('item #','title','desc','completed'))
+    print('\n')
+    print("%-10s %-10s %-30s %-10s"%('item #','title','desc','completed'))
+    print('-'*40)
     for item in todos:
-
-        values =  list(item.values()) #(rowid,title,desc,completed)
-        print("%-10s %-10s %30s %2d"%values)
+        values = tuple(item.values()) #(rowid,title,desc,completed)
+        print("%-10s %-10s %-30s %2d"%values)
 
 def process_args(arglist):
-    todolist = TodoList()
+    ''' examine args and make appropriate calls to TodoList'''
+    database_file = os.getenv('HOME')+'/todo.db'
+    todolist = TodoList(database_file)
     if arglist==[]:
         print_usage()
     elif arglist[0]=="show":
@@ -76,8 +80,8 @@ def process_args(arglist):
         if len(arglist)!=3:
             print_usage()
         else:
-            todo = {title:arglist[1],desc:arglist[2],completed:0}
-            todolist.insert(todo)
+            todo = {'title':arglist[1],'desc':arglist[2],'completed':0}
+            todolist.add(todo)
     elif arglist[0]=='complete':
         if len(arglist)!= 2:
             print_usage()
@@ -92,14 +96,28 @@ def process_args(arglist):
         print(arglist,"is not implemented")
         print_usage()
 
-print('args=')
-print(sys.argv)
-if len(sys.argv)==1:
-    # they didn't pass any arguments, so prompt for them:
-    print_usage()
-    args = input("command> ").split(" ")
-else:
-    args = sys.argv[1:]
-# now we can get process the arguments
-process_args(args)
+
+def toplevel():
+    ''' read the command args and process them'''
+    if len(sys.argv)==1:
+        # they didn't pass any arguments, 
+        # so prompt for them in a loop
+        print_usage()
+        args = []
+        while args!=['']:
+            args = input("command> ").split(' ')
+            if args[0]=='add':
+                # join everyting after the name as a string
+                args = ['add',args[1]," ".join(args[2:])]
+            process_args(args)
+            print('-'*40+'\n'*3)
+    else:
+        # read the args and process them
+        args = sys.argv[1:]
+        process_args(args)
+        print('-'*40+'\n'*3)
+
+    
+
+toplevel()
 
