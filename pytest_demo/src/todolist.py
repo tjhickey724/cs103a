@@ -16,9 +16,17 @@ This app will store the data in a SQLite database ~/todo.db
 import sqlite3
 
 def toDict(t):
-    ''' t is a tuple (rowid,title, desc,completed)'''
-    todo = {'rowid':t[0], 'title':t[1], 'desc':t[2], 'completed':t[3]}
+    ''' t is a tuple, this returns a dict
+        the fields are (rowid,title, desc,completed)'''
+    todo = {'rowid':t[0], 
+            'title':t[1], 
+            'desc':t[2], 
+            'completed':t[3]
+            }
     return todo
+def toDictList(ts):
+    ''' ts is a list of tuples, this returns a list of dicts '''
+    return [toDict(t) for t in ts]
 
 class TodoList():
     def __init__(self,database_file):
@@ -37,7 +45,7 @@ class TodoList():
         tuples = cur.fetchall()
         con.commit()
         con.close()
-        return [toDict(t) for t in tuples]
+        return toDictList(tuples)
     def selectAll(self):
         ''' return all of the tasks as a list of dicts.'''
         con= sqlite3.connect(self.database_file)
@@ -46,7 +54,7 @@ class TodoList():
         tuples = cur.fetchall()
         con.commit()
         con.close()
-        return [toDict(t) for t in tuples]
+        return toDictList(tuples)
 
     def selectCompleted(self):
         ''' return all of the completed tasks as a list of dicts.'''
@@ -56,16 +64,22 @@ class TodoList():
         tuples = cur.fetchall()
         con.commit()
         con.close()
-        return [toDict(t) for t in tuples]
+        return toDictList(tuples)
+
     def add(self,item):
         ''' create a todo item and add it to the todo table '''
         con= sqlite3.connect(self.database_file)
         cur = con.cursor() 
         cur.execute("INSERT INTO todo VALUES(?,?,?)",(item['title'],item['desc'],item['completed']))
         tuples = cur.fetchall()
+        print('in add',str(toDictList(tuples)))
+        cur.execute("SELECT last_insert_rowid()")
+        last_rowid = cur.fetchone()
+        print('id add, last_rowid=',str(last_rowid))
         con.commit()
         con.close()
-        return
+        return last_rowid[0]
+
     def delete(self,rowid):
         ''' delete a todo item '''
         con= sqlite3.connect(self.database_file)

@@ -9,16 +9,17 @@ def small_db(tmpdir):
     todo1 = {'title':'testing 1','desc':'see if it works','completed':0}
     todo2 = {'title':'testing 2','desc':'does it work','completed':1}
     todo3 = {'title':'testing 3','desc':'yes, it works','completed':0}
-    db.add(todo1)
-    db.add(todo2)
-    db.add(todo3)
+    id1=db.add(todo1)
+    id2=db.add(todo2)
+    id3=db.add(todo3)
     yield db
     db.deleteAll()
 
-
+@pytest.mark.simple
 def test_simple():
     assert 2==1+1
 
+@pytest.mark.simple
 def test_todict():
     a = toDict((1,'test','testing toDict',0))
     assert a['rowid']==1
@@ -34,7 +35,7 @@ def test_emptylist():
     items = db.selectAll()
     assert len(items)==0
 
-
+@pytest.mark.add
 def test_add():
     ''' add a task to an empty dict, the select it, then delete it'''
     dbfile = 'testing.db'
@@ -53,7 +54,7 @@ def test_add():
     items = db.selectAll()
     assert len(items)==0
 
-
+@pytest.mark.add_fix
 def test_add_fix(small_db):
     todo = {'title':'alternate add',
             'desc':'does it work',
@@ -63,4 +64,9 @@ def test_add_fix(small_db):
     items2 = small_db.selectAll()
     assert len(items2) == len(items)+1
 
-
+@pytest.mark.delete_fix
+def test_add_fix(small_db):
+    items = small_db.selectAll()
+    assert len(items)>0
+    items2 = small_db.selectAll()
+    assert len(items2) == 0
