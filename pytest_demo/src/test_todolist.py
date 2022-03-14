@@ -1,11 +1,14 @@
 import pytest
 from todolist import TodoList, toDict
 
+@pytest.fixture
+def dbfile(tmpdir):
+    return tmpdir.join('testing2.db')
 
 @pytest.fixture
-def small_db(tmpdir):
+def small_db(dbfile):
     ''' create a small database, and tear it down later'''
-    db = TodoList(tmpdir.join('testing2.db'))
+    db = TodoList(dbfile)
     todo1 = {'title':'testing 1','desc':'see if it works','completed':0}
     todo2 = {'title':'testing 2','desc':'does it work','completed':1}
     todo3 = {'title':'testing 3','desc':'yes, it works','completed':0}
@@ -13,7 +16,34 @@ def small_db(tmpdir):
     id2=db.add(todo2)
     id3=db.add(todo3)
     yield db
-    db.deleteAll()
+    db.delete(id3)
+    db.delete(id2)
+    db.delete(id1)
+
+@pytest.fixture
+def med_db(small_db,dbfile):
+    rowids=[]
+    # add 10 todos
+    for i in range(10):
+        s = str(i)
+        todo ={'title':'name'+s,
+               'desc':'description '+s,
+               'completed':i%2}
+        rowid = small_db.add(todo)
+        rowids.append(rowid)
+
+    yield small_db
+
+    # remove those 10 todos
+    for j in range(10):
+        small_db.delete(rowids[j])
+
+
+
+
+    
+        
+
 
 @pytest.mark.simple
 def test_simple():
@@ -64,9 +94,37 @@ def test_add_fix(small_db):
     items2 = small_db.selectAll()
     assert len(items2) == len(items)+1
 
-@pytest.mark.delete_fix
-def test_add_fix(small_db):
+@pytest.mark.delete
+def test_deleteAll(small_db):
     items = small_db.selectAll()
     assert len(items)>0
+    small_db.deleteAll()
     items2 = small_db.selectAll()
     assert len(items2) == 0
+
+@pytest.mark.delete
+def test_delete(small_db):
+    '''
+    delete one item and see that the total goes down by one
+    '''
+    items = small_db.selectAll()
+    assert len(items)>0
+    small_db.delete(items[1]['rowid'])
+    items2 = small_db.selectAll()
+    assert len(items2) == len(items)-1
+
+@pytest.mark.delete
+def test_delete_completed(med_db):
+    ''' check that selectAll,Active,Completed have right sizes
+        delete the completed ones and check that only active remain    
+    '''
+    itemsAll = med_db.selectAll()
+    itemsCompleted = med_db.selectCompleted()
+    itemsActive = med_db.selectActive()
+    assert len(itemsAll) == len(itemsCompleted) + len(itemsActive)
+    for i in range(len(itemsCompleted)):
+        item = itemsCompleted[i]
+        med_db.delete(item['rowid'])
+    items2 = med_db.selectAll()
+    assert len(items2)==len(itemsActive)
+

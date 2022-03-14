@@ -72,10 +72,8 @@ class TodoList():
         cur = con.cursor() 
         cur.execute("INSERT INTO todo VALUES(?,?,?)",(item['title'],item['desc'],item['completed']))
         tuples = cur.fetchall()
-        print('in add',str(toDictList(tuples)))
         cur.execute("SELECT last_insert_rowid()")
         last_rowid = cur.fetchone()
-        print('id add, last_rowid=',str(last_rowid))
         con.commit()
         con.close()
         return last_rowid[0]
