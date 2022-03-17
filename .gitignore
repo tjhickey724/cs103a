@@ -2,3 +2,4 @@
 .ipynb*
 *.db
 __pycache*
+*~
