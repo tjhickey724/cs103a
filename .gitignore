@@ -3,3 +3,4 @@
 __pycache*
 *~
 .pytest*
+node_modules
