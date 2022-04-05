@@ -1,0 +1,15 @@
+"mongodb://localhost:27017"   good with no username:password
+mongodb://localhost:27017     bad, no quotes
+"mongod://tim:PassWord@localhost:27017"  bad prefix
+"mongodb:/tim:PassWord@localhost:27017"  bad, missing /
+"mongodb//tim:PassWord@localhost:27017"  bad, missing :
+"mongodb://Tim:PassWord@localhost:27017"  bad, username not lowercase
+"mongodb://tj:PassWord@localhost:27017"  bad, username too short
+"mongodb://tim:PassWord@localhost:27017"  good with username:password
+"mongodb://timothy:PassWord!!@localhost:27017"  good with long username password
+"mongodb://timothy:PassWord#localhost:27017"  bad, missing @
+"mongodb://timothy:PassWord@localhost:27107"  bad, wrong port
+"mongodb://timothy:PassWord@local:27107"  bad, wrong domainname
+
+
+
